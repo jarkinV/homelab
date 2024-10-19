@@ -1,0 +1,20 @@
+- DNS:
+    - Pihole:
+        icon: pi-hole.svg
+        href: https://pihole.local.your-domain.com/admin
+        description: DNS server
+        widget:
+          type: pihole
+          url: http://pihole
+          key: {{HOMEPAGE_VAR_PIHOLE_API_KEY}}
+
+- Cloud:
+    - Immich:
+        icon: immich.svg
+        href: https://photos.local.your-domain.com
+        description: Photos
+        widget:
+          type: immich
+          url: http://immich_server:2283
+          key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
+          version: 2
