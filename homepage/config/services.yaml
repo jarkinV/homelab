@@ -1,14 +1,12 @@
-- DNS:
+- Services:
     - Pihole:
         icon: pi-hole.svg
         href: https://pihole.local.your-domain.com/admin
         description: DNS server
         widget:
           type: pihole
-          url: http://pihole
+          url: http://pihole.proxy
           key: {{HOMEPAGE_VAR_PIHOLE_API_KEY}}
-
-- Cloud:
     - Immich:
         icon: immich.svg
         href: https://photos.local.your-domain.com
@@ -18,3 +16,22 @@
           url: http://immich_server:2283
           key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
           version: 2
+    - TrueNAS:
+        icon: truenas.svg
+        href: http://192.168.1.28:8888
+        description: NAS
+        widget:
+          type: truenas
+          url: http://192.168.1.28:8888
+          key: {{HOMEPAGE_VAR_TRUENAS_API_KEY}}
+          enablePools: true
+          nasType: scale
+    - Portainer:
+        icon: portainer.svg
+        href: https://192.168.1.28:31015
+        description: Docker UI
+        widget:
+          type: portainer
+          url: https://192.168.1.28:31015
+          env: 3
+          key: {{HOMEPAGE_VAR_PORTAINER_API_KEY}}
