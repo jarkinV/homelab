@@ -1,0 +1,26 @@
+networks:
+  proxy:
+    external: true
+
+services:
+  file-browser:
+    image: ${FILEBROWSER_IMAGE_TAG}
+    container_name: file-browser
+    volumes:
+      - ${FILEBROWSER_PATH}:/srv
+      - /etc/docker-configs/filebrowser/filebrowser.db:/database.db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.filebrowser.entrypoints=https"
+      - "traefik.http.routers.filebrowser.rule=Host(`files.${DOMAIN}`)"
+      - "traefik.http.routers.filebrowser.tls=true"
+      - "traefik.http.routers.filebrowser.tls.certresolver=cloudflare"
+      - "traefik.http.routers.filebrowser.tls.domains[0].main=${DOMAIN}"
+      - "traefik.http.routers.filebrowser.tls.domains[0].sans=*.${DOMAIN}"
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=${FILEBROWSER_PORT}"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy

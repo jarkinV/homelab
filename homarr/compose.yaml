@@ -1,0 +1,29 @@
+networks:
+  proxy:
+    external: true
+
+services:
+  homarr:
+    container_name: homarr
+    image: ${HOMARR_IMAGE_TAG}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/docker-configs/homarr/configs:/app/data/configs
+      - /etc/docker-configs/homarr/icons:/app/public/icons
+      - /etc/docker-configs/homarr/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homarr.entrypoints=https"
+      - "traefik.http.routers.homarr.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.homarr.tls=true"
+      - "traefik.http.routers.homarr.tls.certresolver=cloudflare"
+      - "traefik.http.routers.homarr.tls.domains[0].main=${DOMAIN}"
+      - "traefik.http.routers.homarr.tls.domains[0].sans=*.${DOMAIN}"
+      - "traefik.http.services.homarr.loadbalancer.server.port=${HOMARR_PORT}"
+      - "traefik.docker.network=proxy"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    
